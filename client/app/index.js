@@ -1,6 +1,7 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {Router, Link, browserHistory, Route, IndexRoute} from 'react-router'
+import {Link, browserHistory, Route, IndexRoute} from 'react-router'
+import ReactStormpath, { Router, HomeRoute, LoginRoute, AuthenticatedRoute } from 'react-stormpath';
 import {Provider} from 'react-redux'
 import './stylesheets/stylesheet.css'
 import store, {history} from './store.js'
@@ -22,4 +23,5 @@ const Root = (
 	</Provider>
 )
 
+ReactStormpath.init();
 render(Root, document.getElementById('app'))
