@@ -1,4 +1,5 @@
 const express = require('express');
+const stormpath = require('express-stormpath');
 const path = require('path')
 const session = require('express-session');
 const mongoose = require('mongoose');
@@ -12,6 +13,11 @@ const config = require('../webpack.config.js');
 // APP SETUP & MIDDLEWARE
 const app = express();
 const compiler = webpack(config);
+app.use(stormpath.init(app, {
+  web: {
+    produces: ['application/json']
+  }
+}));
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
   publicPath: config.output.publicPath
@@ -36,6 +42,9 @@ app.get("*", (req, res) => (
 ));
 
 const PORT = process.env.PORT || 4000
-app.listen(PORT, () => (
-	console.log("App running on port ", PORT)
-))
+
+app.on('stormpath.ready', function () {
+  app.listen(PORT, () => (
+    console.log("App running on port ", PORT)
+  ))
+});

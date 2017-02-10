@@ -1,5 +1,5 @@
 const passport = require('passport');
-const user_schema = require('../database/user_schema.js')
+const User = require('../database/user_schema.js')
 const express = require('express');
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -25,7 +25,7 @@ passport.use('login',
     usernameField: 'email',
     passwordField: 'phone'
   }, (email, phone, done) => {
-    user_schema.User.findOne({
+    User.findOne({
       'email': email
     }, (err, data) => {
       if (!data) {
@@ -47,9 +47,9 @@ passport.use('signup', new LocalStrategy({
     passwordField: 'phone'
   }, (email, phone, done) => {
   process.nextTick(() => {
-    user_schema.User.find({'email': email}, (err, data) => {
+    User.find({'email': email}, (err, data) => {
       if (!data.length) {
-        const temp = new user_schema.User({ //create a new user to store in db
+        const temp = new User({ //create a new user to store in db
           email
         });
         temp.phone = temp.generateHash(phone);

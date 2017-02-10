@@ -10,7 +10,7 @@ router.post('/signup', local.passport.authenticate('signup'), (req, res) => {
   res.end();
 });
 
-router.get('/auth', local.isLoggedIn, (req, res) => {
+router.get('/isAuthenticated', local.isLoggedIn, (req, res) => {
   res.end();
 });
 
